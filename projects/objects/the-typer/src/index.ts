@@ -1,6 +1,51 @@
 // Write your types here! ✨
+type BaseRoute = {
+	name: string;
+	proximity: number;
+	treasure?: string;
+};
 
-let current = {
+type PathRoute = BaseRoute & {
+	type: "path";
+	shortcut?: Route;
+	through: Route;
+};
+
+type TownRoute = BaseRoute & {
+	type: "town";
+	around?: Route;
+	through?: Route;
+};
+
+type ClearingRoute = BaseRoute & {
+	type: "clearing";
+	through?: Route;
+};
+
+type BaseStream = BaseRoute & {
+	type: "stream";
+};
+type BeginStream = BaseStream & {
+	area: "begin";
+	downstream: Route;
+};
+
+type MiddleStream = BaseStream & {
+	area: "middle";
+	upstream: Route;
+	downstream: Route;
+};
+
+type EndStream = BaseStream & {
+	area: "end";
+	upstream: Route;
+};
+
+type StreamRoute = BeginStream | MiddleStream | EndStream;
+
+type Route = PathRoute | TownRoute | ClearingRoute | StreamRoute;
+
+let current: Route | undefined = {
 	name: "Woesong Bridge",
 	proximity: 100,
 	through: {
